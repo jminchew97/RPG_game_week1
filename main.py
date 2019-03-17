@@ -2,7 +2,6 @@
 #add dungeon
 #create monster generator
 #Add descriptions for monsters
-#Add speed as a property to increase chance of striking first
 
 import time
 from classes import *
@@ -12,48 +11,78 @@ def sleep(hp):
       print('zZ~'*x)
       time.sleep(3)
 def stats():
-    print('---' + char.name + '/HP:' + str(char.hp) + '---')
+    print('/-' + char.name + '/HP:' + str(char.hp) + ' - '+ 'Coins:'+str(char.coins) + '-/')
     print('----' + char.location + '----')
 def space():
   print('\n' * 100)
 def cont():
   print('--Enter to continue--')
   input()
+def decideFirstHit(p,m):
+  pChance = rnd.randint(0,p.speed)
+  mChance = rnd.randint(0,m.speed)
+  while pChance == mChance:
+    pChance = rnd.randint(0,p.speed)
+    mChance = rnd.randint(0,m.speed)
+  print('PlayerRoll:{} | MonsterRoll:{}'.format(pChance,mChance))
+  if pChance > mChance:
+    return 1
+  elif mChance > pChance:
+    return 2
+def fightSequence(hitFirst,hitSecond):
+  
 
+  print(hitFirst.name + ' hits first.')
+  cont()
+  while True:
+    space()
+    print('{} {}hp || {} {}hp'.format(hitFirst.name,hitFirst.hp,hitSecond.name,hitSecond.hp))
+    hit = rnd.randint(0,hitFirst.attk)
+    print(hitFirst.name + ' hits ' + str(hit) )
+    hitSecond.hp -= hit
+    time.sleep(1)
+    
+    #Check if both opponents HP above 0
+    if hitFirst.hp <= 0 or hitSecond.hp <= 0:
+      print("{} - {}".format(hitFirst.hp,hitSecond.hp))
+      break
+
+    hit = rnd.randint(0,hitSecond.attk)
+    print(hitSecond.name + ' hits ' + str(hit) )
+    hitFirst.hp -= hit
+    time.sleep(1)
+
+    #Check if both opponents HP above 0
+    if hitFirst.hp <= 0 or hitSecond.hp <= 0:
+      print("{} - {}".format(hitFirst.hp,hitSecond.hp))
+      break
+    
 #Fight function p = player m=monster
 def fight(p,m):
   space()
   print('You enter a fight with ' + m.name + '.')
-  #Dice roll on who goes first
-  roll = rnd.randint(0,1)
+  space()
+  print("{} {}/{}hp --- {} {}/{}hp".format(p.name,p.hp,p.fullHp,m.name,m.hp,m.fullHp))
 
-  while m.hp and p.hp != 0:
-    space()
-    print("{} {}/{}hp --- {} {}/{}hp".format(p.name,p.hp,p.fullHp,m.name,m.hp,m.fullHp))
-    
-    
-    hit = rnd.randint(0,m.lvl)
-    print(p.name + ' hits ' + str(hit) )
-    m.hp -= hit
+  #You hits first
+  if decideFirstHit(p,m) == 1:
+    fightSequence(p,m)
+      
+  #Monster hits first
+  else:
+    fightSequence(m,p)
+
+  #Set hp to 0 if below
+  if p.hp <= 0:
+    p.hp = 0
+    print('You lost to ' + m.name)
     cont()
-    hit = rnd.randint(0,p.lvl)
-    print(m.name + ' hits ' + str(hit) )
-    m.hp -= hit
+    
+  elif m.hp <= 0:
+    coins = m.coinDrop()
+    print('You killed ' + m.name + ' and recieved ' + str(coins) + ' coins' )
+    p.coins += coins
     cont()
-    #Set hp to 0 if below
-    if p.hp <= 0:
-      p.hp = 0
-      print('You lost to ' + m.name)
-      cont()
-      break
-    elif m.hp <= 0:
-      coins = m.coinDrop()
-      print('You killed ' + m.name + ' and recieved ' + str(coins) + ' coins' )
-      p.coins += coins
-      cont()
-
-      break
-
 
 #Create character object
 char = Person('Player')
@@ -82,8 +111,8 @@ while True:
         if char.isDeveloper != True:
           if char.hp <= 100:
             print('You close your eyes and lie down...')
-            sleep(char.hp)
-        char.sleep = 100
+            time.sleep(2)
+        char.hp = char.fullHp
 
       elif choice == 2:
         #Player goes to dungeon and shit
@@ -93,11 +122,11 @@ while True:
         #Player goes to store and buys shit
         print('entered store')
       elif choice == 4:
-        monst = Monster(10,'BoogaLooga',10)
+        #Create monster
+        monst = Monster(10,'BoogaLooga',1,5,10)
         
+        #Fight sequence
         fight(char,monst)
-        
-
         cont()
 
 
