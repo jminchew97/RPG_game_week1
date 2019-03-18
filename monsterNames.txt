@@ -1,0 +1,6 @@
+boogaLooga 5 3 8
+bat 8 6 10
+babyDragon 12 10 15
+bigBoy 10 3 20
+posessedCarrot 3 12 5
+sugarSnake 10 15 10
