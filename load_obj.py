@@ -1,5 +1,4 @@
 from classes import *
-import random as rnd
 import math
 # Syntax to create monsters
 # name,attk,speed,hp
@@ -8,6 +7,8 @@ monsters = list()
 names = open('monsterNames.txt', 'r').readlines()
 
 for monster in names:
+	if monster == 'name    attk|speed|hp\n':
+		continue
 	# Separate all attributes of current monster
 	properties = monster.split(' ')
 

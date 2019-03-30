@@ -5,21 +5,22 @@ class Person:
     self.hp = 10
     self.fullHp = 10
     self.inv = []
-    self.lvl = 1
+    self.xp = 0
+    self.fullXp = 10
     self.attk = 10
     self.speed = 10
-    self.isDeveloper = True
+    self.isDeveloper = False
     self.coins = 0
     self.location = 'HOME'
-
+    self.type = 'char'
 
 class Monster:
-    def __init__(self,lvl,name,attk,speed,hp):
-        self.lvl = lvl
+    def __init__(self,name,attk,speed,hp):
         self.attk = attk
         self.name = name
         self.hp = hp
         self.speed = speed
         self.fullHp = hp
+        self.char = 'monster'
     def coinDrop(self):
-        return rnd.randint(0,self.lvl)
+        return rnd.randint(0,self.attk)
