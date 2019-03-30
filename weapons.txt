@@ -1,0 +1,5 @@
+weaponName | attkBonus | lvlNeeded | price
+Small-Sword 1 11 25
+Med-Sword 3 13 40
+Long-Sword 5 15 60
+Great-Sword 10 20 100
