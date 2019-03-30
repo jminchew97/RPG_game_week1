@@ -19,8 +19,16 @@ class Monster:
         self.attk = attk
         self.name = name
         self.hp = hp
+        self.weapon = 0
         self.speed = speed
         self.fullHp = hp
         self.char = 'monster'
     def coinDrop(self):
         return rnd.randint(0,self.attk)
+class Weapon:
+    def __init__(self,name,attackBonus,levelNeeded,price):
+        self.name = name
+        self.bonus = attackBonus
+        self.level = levelNeeded
+        self.wield = False
+        self.price = price
