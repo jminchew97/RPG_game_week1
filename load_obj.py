@@ -18,3 +18,20 @@ for monster in names:
 	hp = int(properties[3])
 	singleMonster = Monster(name, attack,  speed, hp)
 	monsters.append(singleMonster)
+weapons = list()
+# Read the text file with monsters
+weaponList = open('weapons.txt', 'r').readlines()
+
+for weapon in weaponList:
+	if weapon == 'weaponName | attkBonus | lvlNeeded | price\n':
+		continue
+	else:
+		# Separate all attributes of current monster
+		properties = weapon.split(' ')
+
+		name = properties[0]
+		attackBonus = int(properties[1])
+		lvlNeeded = int(properties[2])
+		price = int(properties[3])
+		singleWeapon = Weapon(name, attackBonus, lvlNeeded, price)
+		weapons.append(singleWeapon)
