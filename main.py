@@ -43,13 +43,16 @@ def death():
     print('A bright light appears and takes you away.')
     time.sleep(4)
 
-
-def stats():
-    inventoryString = 'BAG-[\\'
+def inventory():
+    count = 0
+    inventoryString = 'BAG~[\\'
     for weapon in char.inv:
-        inventoryString += ' {} \\'.format(weapon.name)
+        inventoryString += '{}.{} \\'.format(count,weapon.name)
     inventoryString += ']'
     print(inventoryString)
+    count += 1
+def stats():
+    inventory()
     print('|{}| {}/{}HP | COINS:{} | ATTACK:{} | SPEED:{} | {}/{}xp'.format(char.name,char.hp, char.fullHp,
                                                                  char.coins, char.attk, char.speed, char.xp, char.fullXp))
     print('----' + char.location + '----')
@@ -170,7 +173,7 @@ def fight(p, m):
     m.hp = m.fullHp
 # Create character object
 char = Person('Player')
-
+char.inv.append(weapons[2])
 # Main loop
 while True:
         # Intro to game
@@ -278,7 +281,26 @@ while True:
                             print('Make up your mind kid.')
                     else:
                         print('You need at least level {} to buy a {}.'.format(buyWep.level,buyWep.name))
-            
+            elif choice == 'sell':
+                print('What do you wanna sell me?')
+                inventory()
+                choice = int(input('Choose item:'))
+                if choice >= 0 and choice <= len(char.inv) - 1:
+                    weaponChoice = char.inv[choice]
+                    sellPrice = round(weaponChoice.price / 2)
+                    print('So you want to sell {} for {}'.format(weaponChoice.name,
+                                                                    sellPrice))
+                    inp = input('y or n:')
+                    if inp == 'y':
+                        
+                        print('***You sold {} for {} coins***'.format(weaponChoice.name,
+                                                                        sellPrice))
+                        char.coins += sellPrice                                              
+                        del char.inv[choice]
+
+                    elif inp == 'n':
+                        print('My mistake')
+                cont()       
             cont()
         # developer shit
         elif choice == 4:
@@ -303,4 +325,5 @@ while True:
 
     # Save game
     print('Until next time, {}.'.format(char.name))
+
     break
