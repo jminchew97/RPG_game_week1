@@ -7,12 +7,11 @@ class Person:
     self.inv = []
     self.xp = 0
     self.fullXp = 10
-    self.attk = 10
+    self.attk = 5
+    self.wield = False
+    self.type = 'character'
     self.speed = 10
-    self.isDeveloper = False
     self.coins = 0
-    self.location = 'HOME'
-    self.type = 'char'
 
 class Monster:
     def __init__(self,name,attk,speed,hp):
@@ -22,7 +21,7 @@ class Monster:
         self.weapon = 0
         self.speed = speed
         self.fullHp = hp
-        self.char = 'monster'
+        self.type = 'monster'
     def coinDrop(self):
         return rnd.randint(0,self.attk)
 class Weapon:
